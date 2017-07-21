@@ -39,6 +39,12 @@ class TestS3MethodInjection(unittest.TestCase):
         self.assertTrue(hasattr(bucket, 'load'),
                         'load() was not injected onto S3 Bucket resource.')
 
+    def test_bucket_resource_has_head_method(self):
+        session = boto3.session.Session(region_name='us-west-2')
+        bucket = session.resource('s3').Bucket('fakebucket')
+        self.assertTrue(hasattr(bucket, 'head'),
+                        'head() was not injected onto S3 Bucket resource.')
+
     def test_transfer_methods_injected_to_bucket(self):
         bucket = boto3.resource('s3').Bucket('my_bucket')
         self.assertTrue(hasattr(bucket, 'upload_file'),
